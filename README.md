@@ -1,1 +1,1 @@
-# LeetCode
+# This repository is a tracker for the leetcode progress and interview preparation.
