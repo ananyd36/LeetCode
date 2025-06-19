@@ -11,56 +11,39 @@
 # Output: [2,3]
 
 
-
-# Solution:
-
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        freq = defaultdict(int)
-        for i in nums:
-            freq[i] += 1
+        count = {}
+        freq = [[] for i in range(len(nums)+1)]
+
+        # calculating the frequencies of the elements in nums
+        for n in nums:
+            count[n] = 1 + count.get(n, 0)
+
+        for n, c in count.items():
+            freq[c].append(n) # n occurs c number of times
+
+
         res = []
-        for j in range(k):
-            max_value = max(freq.values())
-            max_key = [key for key, value in freq.items() if value==max_value]
-            res.append(max_key[0])
-            del(freq[max_key[0]])
-        return sorted(res)
-    
+        for i in range(len(freq) - 1, 0, -1):  # iterating from the maximum frequency (last index)
+            for j in freq[i]:
+                res.append(j)
+                if len(res) == k:
+                    return res
+                
 
 # Approach:
-# 1. Create a frequency dictionary to count the occurrences of each element in the array.
-# 2. Initialize an empty list to store the k most frequent elements.
-# 3. Use a loop to find the maximum value in the frequency dictionary and its corresponding key.
-# 4. Append the key to the result list and delete it from the frequency dictionary.
-# 5. Repeat the process k times to get the k most frequent elements.
-# 6. Return the result list sorted in ascending order.
-# Time Complexity: O(n*k), where n is the number of elements in the array and k is the number of most frequent elements to find.
-# Space Complexity: O(n), where n is the number of unique elements in the array.
-# Note: The above approach is not optimal. A better approach would be to use a heap to find the k most frequent elements in O(n log k) time.
-# Optimized Approach:
-from collections import Counter
-from heapq import heapify, heappush, heappop
-class Solution:
-    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        freq = Counter(nums)
-        heap = []
-        for key, value in freq.items():
-            heappush(heap, (value, key))
-            if len(heap) > k:
-                heappop(heap)
-        return [heappop(heap)[1] for _ in range(k)][::-1]
-# Approach:
-# 1. Use the Counter class from the collections module to count the occurrences of each element in the array.
-# 2. Initialize an empty heap to store the k most frequent elements.
-# 3. Iterate through the frequency dictionary and push each element into the heap.
-# 4. If the size of the heap exceeds k, pop the smallest element from the heap.
-# 5. After processing all elements, pop the elements from the heap to get the k most frequent elements.
-# 6. Return the result list in reverse order to get the most frequent elements first.
-# Time Complexity: O(n log k), where n is the number of elements in the array and k is the number of most frequent elements to find.
-# Space Complexity: O(n), where n is the number of unique elements in the array.
-# Note: The optimized approach is more efficient than the previous approach, especially for large arrays.
-# The use of a heap allows us to maintain the k most frequent elements in O(log k) time for each insertion and deletion.
-# This makes the overall time complexity O(n log k), which is much better than O(n*k) for large arrays.
-# The space complexity remains O(n) due to the storage of the frequency dictionary and the heap.
-# The optimized approach is the preferred solution for this problem, as it is more efficient and scalable for larger inputs.
+# 1. Create a dictionary to count the frequency of each element in the input array `nums`.
+# 2. Create a list of lists `freq` where the index represents the frequency and each sublist contains elements with that frequency.
+# 3. Iterate through the `count` dictionary to populate the `freq` list.
+# 4. Initialize an empty list `res` to store the k most frequent elements.
+# 5. Iterate through the `freq` list in reverse order (from highest frequency to lowest).
+# 6. For each frequency, append the elements to `res` until it contains k elements.
+# 7. Return the `res` list containing the k most frequent elements.
+# Time Complexity:
+# - O(n), where n is the number of elements in `nums`, for counting frequencies.
+# - O(n) for populating the `freq` list.
+# - O(n) for constructing the result list.
+# Space Complexity:
+# - O(n) for the `count` dictionary and `freq` list.
+# Note: The solution ensures that the output is unique by the nature of the problem constraints.
