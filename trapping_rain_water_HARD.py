@@ -14,6 +14,9 @@
 # Output: 9
 
 
+# FORMULA = # water[i] = min(max_left[i], max_right[i]) - height[i]
+
+
 class Solution:
     def trap(self, height: List[int]) -> int:
         n = len(height)
