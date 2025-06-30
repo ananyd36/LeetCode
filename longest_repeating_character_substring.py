@@ -18,6 +18,8 @@
 # There may exists other ways to achieve this answer too.
  
 
+#FORMULA = length of the window minus the maximum frequency of any character in the window should be less than or equal to k.
+#EQUATION = # (R - L + 1) - max(count.values()) <= k
 
 
 class Solution:
