@@ -15,44 +15,69 @@
 # 2 + 2 + 5 = 9. We use 2 twice, and 5 once.
 # 9 = 9. We use 9 once.
 
+
+# Intuition
+# The problem asks for all combinations of numbers that sum up to a target. Since we need to find all possible solutions, this suggests an exhaustive search where we explore different possibilities. This is a classic signal to use a backtracking algorithm.
+
+# Think of it as building a decision tree. At each step, we consider a number from the candidates list and face a choice:
+
+# Include this number in our current combination.
+
+# Skip this number and move to the next one.
+
+# We continue exploring down a path (a series of "include" decisions) until the sum of our combination either equals the target (a success!) or exceeds it (a failure). When a path ends, we "backtrack" by undoing our last choice and exploring the next available option. Since we can use the same number multiple times, our "include" decision means we can try to include that same number again.
+
+# Approach
+# We'll implement this backtracking strategy with a recursive helper function, let's call it pathSum. This function will be responsible for exploring the decision tree.
+
+# The pathSum function will need to keep track of three things:
+
+# i: The index of the current candidate we are considering.
+
+# path: The list of numbers forming the current combination.
+
+# total: The current sum of the numbers in path.
+# Here's the flow of the recursion:
+
+# Base Case 1 (Success): If total equals the target, we've found a valid combination. We add a copy of the current path to our results list and stop exploring this branch.
+
+# Base Case 2 (Failure): If total exceeds the target or if we've run out of candidates (i >= len(candidates)), this path is no longer viable. We stop and backtrack.
+# Recursive Step (The Decision):
+
+# Choice 1: Include candidates[i]. We append candidates[i] to our path. Then, we make a recursive call pathSum(i, ...), passing the same index i because we are allowed to reuse the current number.
+
+# Backtrack: After the above recursive call returns, we must undo our choice. We pop the element from the path so we can explore the next decision.
+
+# Choice 2: Skip candidates[i]. We make a different recursive call, pathSum(i + 1, ...), moving on to the next candidate without adding the current one to our path.
+
+# We initiate the process by calling pathSum(0, [], 0), starting at the first candidate with an empty path and a total of zero.
+# Complexity
+# Time Complexity: O(N ^ T/M)
+# Let N be the number of candidates, T be the target value, and M be the minimum value among the candidates. The maximum depth of the recursion tree can be up to T/M. At each level of the tree, we can have up to N branches. This results in a time complexity that is exponential, roughly bounded by O(N^T/M). The extra factor of N can be thought of as the branching work done at each node.
+
+# Space Complexity: O(T/M)
+# The space complexity is determined by the maximum depth of the recursion stack. In the worst-case scenario, the smallest candidate (let's say its value is M) is chosen repeatedly to reach the target T. The depth of the recursion would be T/M. This also corresponds to the maximum size of the path list we store during recursion.
+
+# Code
 class Solution:
-    def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        
         res = []
 
-        def dfs(start, path, total):
-            # terminating conditions
+        def pathSum(i, path, total):
             if total == target:
-                res.append(path.copy()) # copy because we need to maintain the path
-                return
-            if start >= len(nums) or total > target:
+                res.append(path.copy())
                 return
             
-            # lets work on the branching and recursive dfs
-            #first we will be adding the start candidate into our path
-            path.append(nums[start])
-            # then after adding we will check for conditions and start a recursive stack
-            dfs(start, path, total + nums[start]) # updated total amount
-            # if it returns with the updated res via recursion or termination condition we remove it from path
+            if total > target or i >= len(candidates):
+                return
+            
+            path.append(candidates[i])
+
+            pathSum(i, path, total + candidates[i])
             path.pop()
-            # and then move on with the rest of the values
-            dfs(start + 1, path, total) # not adding nums[i] since that path is now backtracked to original checkpoint
+
+            pathSum(i+1, path, total)
         
-        dfs(0,[],0)
-
-
+        pathSum(0,[],0)
         return res
-    
-
-
-# Approach:
-# 1. We define a recursive function `dfs` that takes the current index, the current path, and the total sum so far.
-# 2. If the total sum equals the target, we append a copy of the current
-# path to the result list.
-# 3. If the total sum exceeds the target or if we have processed all elements,
-# we return from the function.
-# 4. We then add the current number to the path and call `dfs` recursively
-# with the same index to allow for repeated use of the same number.
-# 5. After the recursive call, we remove the last number from the path (backtracking) and call `dfs` again with the next index to explore other combinations.
-# 6. Finally, we return the result list containing all unique combinations that sum to the target.
-# Time Complexity: O(2^n), where n is the number of elements in `nums`. This is because we explore all possible combinations of the elements.
-# Space Complexity: O(n), where n is the maximum depth of the recursion stack, which can go up to the length of the `nums` list in the worst case.
