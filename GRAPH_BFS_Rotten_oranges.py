@@ -45,3 +45,5 @@ class Solution:
             minute+=1 
         return minute if fresh == 0 else -1
 
+
+
