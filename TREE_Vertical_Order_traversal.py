@@ -6,13 +6,6 @@
 
 # If two nodes are located at the same row and column, the node that appears to the left should come before the other.
 
-# Example 1:
-
-
-
-# Input: root = [1,2,3,4,5,6,7]
-
-# Output: [[4],[2],[1,5,6],[3],[7]]
 
 
 # Definition for a binary tree node.
@@ -67,3 +60,19 @@ class Solution:
                 queue.append((node.right, col + 1))
 
         return [cols[c] for c in range(minCol, maxCol + 1)]
+    
+
+
+# The idea is that we start with the root and for every left node we 
+# decrement the column value by 1 and we increment when we go right 
+# this way we can use a hashmap to store values based on col value 
+# and this will club the nodes with same col values. Then we can either 
+# sort the hashmap and print each col values or we can keep track of 
+# all mincol and maxcol and then iterate from mincol to max col and 
+# return the values. We can use a BFS to traverse through all of the nodes.
+
+
+# TC : O(N)
+# SC : O(N)
+# # where N is the number of nodes in the tree.
+# The space complexity is O(N) for the queue and the dictionary storing the columns.
