@@ -14,6 +14,26 @@
 # Explanation: You will start at index 1.
 # - Pay 15 and climb two steps to reach the top.
 # The total cost is 15.
+
+class Solution:
+    def minCostClimbingStairs(self, cost):
+        
+        memo = {}
+        def recursive(i):
+            if i == 0 or i == 1:
+                return 0
+            
+            if i in memo:
+                return memo[i]
+            
+            memo[i] = min( recursive(i - 1) + cost[i-1], recursive(i - 2) + cost[i-2] )
+            
+            return memo[i]
+            
+        return recursive(len(cost))
+    
+
+    
 class Solution:
     def minCostClimbingStairs(self, cost: List[int]) -> int:
         
