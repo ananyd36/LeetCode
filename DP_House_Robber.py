@@ -1,5 +1,30 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
+
+        n = len(nums)
+        memo = {}
+        def recursive(i):
+            if i >= len(nums):
+                return 0
+            
+            if i in memo:
+                return memo[i]
+            
+            rob = recursive(i + 2) + nums[i]
+
+            skip = recursive(i + 1)
+
+            memo[i] = max(rob, skip)
+
+            return memo[i]
+
+        
+        return recursive(0)
+
+
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
         n = len(nums)
         if n < 1:
             return 
@@ -16,7 +41,6 @@ class Solution:
             dp[i] = max(dp[i-1], dp[i-2] + nums[i])
         
         return dp[n-1]
-
 
 
 # Here the idea is that at every house we have two choices:

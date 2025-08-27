@@ -15,6 +15,7 @@
 # - Pay 15 and climb two steps to reach the top.
 # The total cost is 15.
 
+# Memoization
 class Solution:
     def minCostClimbingStairs(self, cost):
         
@@ -33,7 +34,7 @@ class Solution:
         return recursive(len(cost))
     
 
-    
+# Tabulation
 class Solution:
     def minCostClimbingStairs(self, cost: List[int]) -> int:
         
@@ -42,6 +43,19 @@ class Solution:
         for i in range(2, n+1):
             dp[i] = min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])
         return dp[n]
+
+# Space Optimization
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        
+        n = len(cost)
+        prev = 0
+        prev2 = 0
+        for i in range(2, n+1):
+            cur = min(prev + cost[i-1] , prev2 + cost[i-2])
+            prev2 = prev
+            prev = cur
+        return cur
 
 
 # minCost[i] = min(
