@@ -24,4 +24,4 @@ class Solution:
             
             return (valid(node.left, left, node.val) and valid(node.right, node.val, right))
 
-        return valid(root, float('-inf'), float('inf'))
+        return valid(root, float('-inf'), float('inf')) # infinte condition is for the root node
