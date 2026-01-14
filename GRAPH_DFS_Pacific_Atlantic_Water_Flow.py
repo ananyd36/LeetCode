@@ -67,3 +67,5 @@ class Solution:
 # Time Complexity: 
 # O(M×N) O(M×N) because each cell is visited at most twice (once for each ocean).
 # Space Complexity: O(M×N) O(M×N) for the two sets plus the recursion stack.
+
+# the idea is to perform DFS from the borders of the matrix that touch each ocean. We maintain two sets to keep track of cells that can reach the Pacific and Atlantic oceans. Finally, we return the intersection of these two sets as the result.

@@ -62,3 +62,6 @@ class Solution:
             return copy
         
         return dfs(node)
+
+
+# Explanation: The idea is to use DFS to traverse the graph and create a copy of each node along with its neighbors. We maintain a mapping from original nodes to their copies to avoid duplicating nodes and to handle cycles in the graph.

@@ -20,7 +20,7 @@ class Solution:
 
             for c in s:
                 count[ord(c) - ord('a')] +=1
-            res[tuple(count)].append(s)
+            res[tuple(count)].append(s) # dictionary counts must be hashable , list are not hashable but tuples are hashable, also, list are mutable and mutable objects cannot be used as dictionary keys.
         
         return res.values()
 

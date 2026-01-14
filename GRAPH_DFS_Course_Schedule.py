@@ -22,7 +22,7 @@ class Solution:
             adjList[crs].append(pre)
         
         visit = set()
-
+        
         def dfs(crs):
             if crs in visit:
                 return False

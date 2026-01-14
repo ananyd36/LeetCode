@@ -19,7 +19,7 @@
 
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
-        res = [1] * len(nums)
+        res = [1] * len(nums) # Initialize the result array with 1s is key 
 
         prefix = 1
         for i in range(len(nums)):
@@ -32,9 +32,10 @@ class Solution:
             postfix *= nums[i]
         
         return res
-
-
-
+    
+    # next part to optimize space is to use the result array to store both prefix and postfix products instead of using separate variables.
+    # This can be done by first calculating the prefix products in the result array,
+    # and then using a single variable to keep track of the postfix product while iterating from the end.
 
 # Approach:
 # 1. Initialize a result list with the same length as nums, filled with 1s.
